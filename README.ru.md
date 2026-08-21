@@ -2,6 +2,9 @@
 
 [English version](README.md) · [Лицензия MIT](LICENSE)
 
+[![CI](https://github.com/ClassnyiSait-Labs/bitrix24-crm-chat/actions/workflows/ci.yml/badge.svg)](https://github.com/ClassnyiSait-Labs/bitrix24-crm-chat/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+
 Бесплатный модуль с открытым исходным кодом для **коробочного Bitrix24**. Добавляет в мессенджер
 отдельную вкладку **«CRM чаты»** — быстрый доступ к чатам сделок и контактов вместо поиска их в
 общем списке Recent.
@@ -47,6 +50,19 @@ classnyisait.crmchat/
 ├── lib/EventHandler.php, lib/EventRegistrar.php  подписка на события
 └── test/               PHP-тесты
 ```
+
+## Разработка
+
+```bash
+composer install
+composer test          # 28 PHPUnit-тестов
+```
+
+Тесты покрывают чистую логику, работающую без ядра Битрикса. Всё, что обращается к базе,
+корзине или интерфейсу мессенджера, требует живого портала и проверяется вручную —
+подробности в [CONTRIBUTING.md](CONTRIBUTING.md).
+
+CI прогоняет линт и тесты на PHP 8.1, 8.2 и 8.3 при каждом push и pull request.
 
 ## Вклад в проект
 

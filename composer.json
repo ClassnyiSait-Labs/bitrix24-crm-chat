@@ -1,0 +1,28 @@
+{
+    "name": "classnyisait-labs/bitrix24-crm-chat",
+    "description": "Free self-hosted Bitrix24 module: a dedicated CRM chats tab in the messenger",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://classnyisait.ru/modules/",
+    "support": {
+        "issues": "https://github.com/ClassnyiSait-Labs/bitrix24-crm-chat/issues",
+        "source": "https://github.com/ClassnyiSait-Labs/bitrix24-crm-chat"
+    },
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Classnyisait\\CrmChat\\": "classnyisait.crmchat/lib/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

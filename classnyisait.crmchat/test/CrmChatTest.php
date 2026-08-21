@@ -212,11 +212,25 @@ class CrmChatTest extends TestCase
 
     public function testCrmPermissionConstants(): void
     {
-        // Verify that the permission actions we rely on exist in the Bitrix enum
+        // This one checks the host platform, not the module: the permission
+        // actions must exist in the Bitrix enum we build the chat config from.
+        // Without a Bitrix24 kernel there is nothing to check, so the test is
+        // skipped rather than failed — in CI the kernel is never present.
+        if (!class_exists(\Bitrix\Main\Loader::class)) {
+            $this->markTestSkipped('Требуется ядро Bitrix24 — проверка выполняется только на портале.');
+        }
+
         $this->assertTrue(
             enum_exists(\Bitrix\Im\V2\Permission\Action::class),
             'Action enum должен существовать'
         );
+
+        $used = ['Extend', 'ChangeAvatar', 'ChangeDescription', 'ChangeColor', 'Rename', 'Leave', 'LeaveOwner', 'Kick', 'ChangeManagers', 'Mute'];
+        $available = array_column(\Bitrix\Im\V2\Permission\Action::cases(), 'name');
+
+        foreach ($used as $case) {
+            $this->assertContains($case, $available, "Action::$case используется модулем и должен существовать");
+        }
     }
 
     // ─── getUserCrmDialogIds edge cases (unit-testable logic) ──────────
