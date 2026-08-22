@@ -35,7 +35,7 @@ CRM conversations get their own tab in the messenger navigation.
 2. **Marketplace → Installed solutions** → *CRM chats* → *Install*.
 3. Reload the messenger — the "CRM chats" tab appears in the navigation.
 
-Marketplace listing: <https://classnyisait.ru/modules/>
+Marketplace listing: <https://marketplace.1c-bitrix.ru/solutions/classnyisait.crmchat/>
 
 ## Screenshots
 
