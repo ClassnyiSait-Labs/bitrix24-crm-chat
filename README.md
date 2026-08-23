@@ -9,6 +9,13 @@ Free and open-source module for **self-hosted Bitrix24** that adds a dedicated *
 to the messenger, so deal and contact conversations are one click away instead of buried in the
 general Recent list.
 
+## Видео
+
+[CRM чаты в Битрикс24: отдельная вкладка для деловых переписок](https://www.youtube.com/watch?v=YkQRzdeVEKY)
+
+Канал: https://www.youtube.com/@ClassnyiSaitLabs
+
+
 ![CRM chats tab](docs/screenshots/01-overview.png)
 
 ## Why
