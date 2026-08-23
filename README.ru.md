@@ -9,6 +9,13 @@
 отдельную вкладку **«CRM чаты»** — быстрый доступ к чатам сделок и контактов вместо поиска их в
 общем списке Recent.
 
+## Видео
+
+[CRM чаты в Битрикс24: отдельная вкладка для деловых переписок](https://www.youtube.com/watch?v=YkQRzdeVEKY)
+
+Канал: https://www.youtube.com/@ClassnyiSaitLabs
+
+
 ![Вкладка CRM чатов](docs/screenshots/01-overview.png)
 
 ## Зачем
