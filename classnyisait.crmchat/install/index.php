@@ -26,6 +26,7 @@ class classnyisait_crmchat extends CModule
 
     function DoInstall()
     {
+        $this->InstallFiles();
         ModuleManager::registerModule($this->MODULE_ID);
         $this->InstallEvents();
         return true;
@@ -35,6 +36,24 @@ class classnyisait_crmchat extends CModule
     {
         $this->UnInstallEvents();
         ModuleManager::unRegisterModule($this->MODULE_ID);
+        $this->UnInstallFiles();
+    }
+
+    function InstallFiles()
+    {
+        CopyDirFiles(
+            __DIR__ . "/js",
+            $_SERVER["DOCUMENT_ROOT"] . "/bitrix/js/classnyisait.crmchat",
+            true,
+            true
+        );
+        return true;
+    }
+
+    function UnInstallFiles()
+    {
+        DeleteDirFilesEx("/bitrix/js/classnyisait.crmchat");
+        return true;
     }
 
     function InstallEvents()
