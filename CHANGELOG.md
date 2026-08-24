@@ -2,10 +2,11 @@
 
 Version numbers follow the Bitrix Marketplace releases of the module.
 
-## [1.0.18] — 2026-08-09
+## [1.0.18] — 2026-08-24
 
 ### Changed
-- Module settings page updates.
+- Runtime JS is published to `/bitrix/js/classnyisait.crmchat/` (InstallFiles + CopyDirFiles on include).
+- The browser no longer requests assets from `/bitrix/modules/…` or `/local/modules/…` (403 on typical nginx / Bitrix 26.650+).
 
 ## [1.0.17] — 2026-08-08
 
