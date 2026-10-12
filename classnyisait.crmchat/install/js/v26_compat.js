@@ -40,6 +40,17 @@
 		}
 	}
 
+	function ensureCategoriesTickModule(store) {
+		if (!store || (store.state && store.state.classnyisaitCategories)) return;
+		try {
+			store.registerModule('classnyisaitCategories', {
+				namespaced: true,
+				state: function () { return { tick: 0 }; },
+				mutations: { bump: function (s) { s.tick++; } }
+			});
+		} catch (e) {}
+	}
+
 	function normalizeLayoutName(name) {
 		if (!name || typeof name !== 'string') return '';
 		var lower = name.toLowerCase();
@@ -114,9 +125,13 @@
 			if (!Array.isArray(orig)) return orig;
 
 			try {
-				var layout = this.$store && this.$store.getters && this.$store.getters['application/getLayout'];
-				var layoutName = (layout && layout.name) || 'chat';
 				var store = this.$store;
+				ensureCategoriesTickModule(store);
+				if (store && store.state && store.state.classnyisaitCategories) {
+					void store.state.classnyisaitCategories.tick;
+				}
+				var layout = store && store.getters && store.getters['application/getLayout'];
+				var layoutName = (layout && layout.name) || 'chat';
 				return orig.filter(function (item) {
 					return filterRecentItem(item, layoutName, store);
 				});
@@ -330,6 +345,34 @@
 		return true;
 	}
 
+	var crmRecentLoading = null;
+
+	function loadCrmRecentItems() {
+		if (crmRecentLoading) return crmRecentLoading;
+		var store = getStore();
+		if (!window.BX || !BX.ajax || !store) return null;
+
+		crmRecentLoading = BX.ajax.runAction('classnyisait:crmchat.Controller.Recent.load').then(function (response) {
+			var result = response.data;
+			if (result.available === false) return;
+			return Promise.all([
+				store.dispatch('chats/set', result.chats || []),
+				store.dispatch('users/set', result.users || []),
+				store.dispatch('messages/store', result.messages || []),
+				store.dispatch('files/set', result.files || []),
+				store.dispatch('recent/setCollection', {
+				type: 'default',
+				items: result.recentItems || [],
+				parentChatId: 0
+				})
+			]);
+		}).catch(function (error) {
+			crmRecentLoading = null;
+			console.error('Не удалось загрузить CRM чаты', error);
+		});
+		return crmRecentLoading;
+	}
+
 	function patchNavigationManager() {
 		var Lib = window.BX && window.BX.Messenger && window.BX.Messenger.v2 && window.BX.Messenger.v2.Lib;
 		var NM = Lib && Lib.NavigationManager;
@@ -341,6 +384,7 @@
 		var origOpen = NM.open.bind(NM);
 		NM.open = function (payload) {
 			if (payload && isCustomLayout(payload.id)) {
+				if (normalizeLayoutName(payload.id) === 'crmDeal') loadCrmRecentItems();
 				var layoutManager = Lib.LayoutManager && Lib.LayoutManager.getInstance && Lib.LayoutManager.getInstance();
 				if (!layoutManager) {
 					return origOpen(payload);
@@ -555,6 +599,7 @@
 	function maintainCrmDomFilter() {
 		var layoutName = getActiveNavigationLayoutName();
 		var isCrmTab = layoutName === 'crmDeal';
+		if (isCrmTab) loadCrmRecentItems();
 		var isCommonChatTab = layoutName === 'chat';
 		var items = document.querySelectorAll('.bx-im-list-recent-item__wrap[data-id]');
 
